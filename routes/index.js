@@ -6,7 +6,7 @@ var bcrypt = require('bcrypt')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Uncle Andys Student Manager' });
+  res.render('index', { title: 'Uncle Andys Student Manager', user : req.session.user });
 });
 
 router.get('/register', function(req,res,next){
@@ -43,5 +43,31 @@ router.post('/register', function(req,res,next){
   }
 })
 
+router.post('/login', function(req,res,next){
+  var errors = []
+  if(!req.body.password || !req.body.email){
+    errors.push('Both Email and Password required.')
+    res.render('login', {errors:errors})
+  }else{
+    Users.findOne({email: req.body.email}, function(error,data){
+      if(!data){
+        errors.push('That user does not exist')
+        res.render('login', {errors:errors})
+      } else{
+        if(bcrypt.compareSync(req.body.password, data.passHash)){
+          req.session.user = data.email
+          res.redirect('/')
+        }else{
+          errors.push('Incorrect Password')
+          res.render('login', {errors:errors})
+        }
+      }
+    })
+  }
+})
+
+router.get('/add', function(req,res,next){
+  
+})
 
 module.exports = router;

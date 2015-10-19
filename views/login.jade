@@ -4,5 +4,15 @@ block content
   h4 Dont have an account? 
     a(href='/register') register here
 
+   -if(errors){
+    ul
+      for error in errors
+        li(style='color:red')=error
+  -}
+
   form(action='/login' method='post')
-    
+    label(for='email') email
+    input(type='text' name='email' id='email')
+    label(for='password') Password
+    input(type='password' name='password' id='password')
+    input(type='submit')
