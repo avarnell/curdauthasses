@@ -1,0 +1,14 @@
+extends layout
+block content
+  h1 Current Students
+
+  table
+    thead
+      tr
+        th Student
+        th Number
+    tbody
+    for student in students 
+      tr
+        td=student.studentName
+        td=student.studentNumber

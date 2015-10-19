@@ -1,0 +1,16 @@
+extends layout
+block content
+  h1 Add a new student
+
+  -if(errors){
+    ul
+      for error in errors
+        li(style='color:red')=error
+  -}
+
+  form(action='/add' method='post')
+    label(for='studentName') Student Name 
+    input(type='text' name='studentName' id='studentName')
+    label(for='studentNumber') Student Phone Number
+    input(type='text' name='studentNumber' id='studentNumber')
+    input(type='submit')

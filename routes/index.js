@@ -3,6 +3,7 @@ var router = express.Router();
 var db = require('monk')('localhost/studentTracker')
 var Users = db.get('userCollection')
 var bcrypt = require('bcrypt')
+var Students = db.get('studentsCollection')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -67,7 +68,48 @@ router.post('/login', function(req,res,next){
 })
 
 router.get('/add', function(req,res,next){
-  
+  var errors = []
+  if(req.session.user){
+    res.render('add', {user : req.session.user})
+  }else{
+    errors.push('You must be signed in to access that page')
+    res.render('login', {errors: errors})
+  }
+})
+
+router.post('/add', function(req,res,next){
+  var errors = []
+  if(!req.body.studentName || !req.body.studentNumber){
+    errors.push('Both Fields are required')
+    res.render('add', {user : req.session.user, errors:errors})
+  }
+  else{
+    Students.insert({
+      studentName : req.body.studentName,
+      studentNumber : req.body.studentNumber
+    },function(error,data){
+      res.redirect('/view')
+    })
+  }
+})
+
+router.get('/view',function(req,res,next){
+  var errors = []
+  if(req.session.user){
+    Students.find({},function(err,data){
+      res.render('view', {user : req.session.user, students : data})
+    })
+
+    
+  }else{
+    errors.push('You must be signed in to access that page')
+    res.render('login', {errors: errors})
+  }
+})
+
+router.get('/logout', function(req,res,next){
+  req.session = null
+  res.redirect('/')
 })
 
 module.exports = router;
