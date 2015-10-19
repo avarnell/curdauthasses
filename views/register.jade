@@ -2,6 +2,11 @@ extends layout
 block content
   h1 Register for an account here!
 
+  -if(user){
+    p You are already signed in, 
+      a(href='logout') Logout?
+  -}
+
   -if(errors){
     ul
       for error in errors

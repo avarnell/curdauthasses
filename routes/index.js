@@ -11,11 +11,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/register', function(req,res,next){
-  res.render('register')
+  res.render('register', { user : req.session.user})
 })
 
 router.get('/login', function(req,res,next){
-  res.render('login')
+
+  res.render('login', {user : req.session.user})
 })
 
 router.post('/register', function(req,res,next){
