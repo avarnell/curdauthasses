@@ -112,4 +112,18 @@ router.get('/logout', function(req,res,next){
   res.redirect('/')
 })
 
+router.get('/view/:id',function(req,res,next){
+  var errors = []
+  if(req.session.user){
+    Students.findById(req.params.id, function(err,data){
+      res.render('viewOne', {user : req.session.user, student : data})
+    })
+
+    
+  }else{
+    errors.push('You must be signed in to access that page')
+    res.render('login', {errors: errors})
+  }
+})
+
 module.exports = router;

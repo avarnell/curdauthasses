@@ -10,5 +10,6 @@ block content
     tbody
     for student in students 
       tr
-        td=student.studentName
+        td
+          a(href='/view/#{student._id}')=student.studentName
         td=student.studentNumber
