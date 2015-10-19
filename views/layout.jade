@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    - if(!user){
+    .nav
+      ul
+        li
+          a(href='/login') Login
+        li
+          a(href='/register') register
+    - } else {
+    .nav
+      ul
+        li
+          a(href='/add') Add a student
+        li
+          a(href='/view') view students
+        li 
+          a(href='/logout') Logout
+
+    -}
+
+    block content
